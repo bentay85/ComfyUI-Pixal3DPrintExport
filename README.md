@@ -97,8 +97,9 @@ Example workflows are collected in the [`workflows/`](workflows) folder.
   a quarter turn about X, `model_height` rescales the up axis, and the model is dropped onto `z = 0`.
 - **Export:** triangle faces are written with 1-based indices; vertex colors are converted from linear
   to sRGB.
-- **Color reduction:** `color_count` quantizes the palette with farthest-point seeding plus Lloyd
-  k-means iterations, which keeps the dominant colors recognizable instead of muddying them.
+- **Color reduction:** `color_count` quantizes the palette in **CIELAB** (so it is perceptually even)
+  with area-weighted farthest-point seeding plus Lloyd k-means iterations, so the dominant colors —
+  not dense noisy patches — drive the palette.
 
 Because generative meshes are not deterministic even for the same input, both nodes re-check the
 result and iterate until the shell is clean rather than assuming the first pass succeeds.

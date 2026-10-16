@@ -1,8 +1,8 @@
 {
   "id": "aa77013b-18f1-4679-9678-6d455d3536c5",
   "revision": 0,
-  "last_node_id": 367,
-  "last_link_id": 1389,
+  "last_node_id": 370,
+  "last_link_id": 1390,
   "nodes": [
     {
       "id": 4,
@@ -650,9 +650,7 @@
         "Node name for S&R": "PreviewImage",
         "cnr_id": "comfy-core",
         "ver": "0.33.0"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 55,
@@ -1857,22 +1855,22 @@
           "fov": 35,
           "state": {
             "position": {
-              "x": 3.1004256771481553,
-              "y": 1.2035808398846557,
-              "z": 0.7324613983669546
+              "x": 1.8394273012931097,
+              "y": 3.005027426701464,
+              "z": -2.7382261331015094
             },
             "target": {
-              "x": -0.18539216968998093,
+              "x": -0.18539216968998096,
               "y": -0.12940291071409174,
-              "z": 0.06007585330276396
+              "z": 0.060075853302763965
             },
             "zoom": 1,
             "cameraType": "perspective",
             "quaternion": {
-              "x": -0.14567156697691977,
-              "y": 0.6209896774966609,
-              "z": 0.11888109676195079,
-              "w": 0.760932914158507
+              "x": -0.11097067984327193,
+              "y": 0.8875022299786538,
+              "z": 0.3426609530941149,
+              "w": 0.28741741635236984
             },
             "fov": 35,
             "aspect": 1,
@@ -1886,13 +1884,32 @@
             }
           }
         },
-        "Last Time Model File": "preview3d_advanced_189d24eb4cd24b54969a9904ace92413.glb",
+        "Last Time Model File": "preview3d_advanced_04138124892947139d36b3e965a7936f.glb",
         "Scene Config": {
           "showGrid": true,
           "backgroundColor": "#282828",
           "backgroundImage": "",
           "backgroundRenderMode": "tiled",
-          "models": []
+          "models": [
+            {
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              }
+            }
+          ]
         },
         "Light Config": {
           "intensity": 3,
@@ -2281,11 +2298,11 @@
         "ver": "0.33.0"
       },
       "widgets_values": [
-        "playful-dog-character-stockcake.jpg",
+        "CutePikachu01.jpg",
         "image"
       ],
       "widgets_values_named": {
-        "image": "playful-dog-character-stockcake.jpg",
+        "image": "CutePikachu01.jpg",
         "upload": "image"
       }
     },
@@ -2570,8 +2587,8 @@
       "id": 363,
       "type": "PrepareSTLMesh",
       "pos": [
-        577.2727272727273,
-        73.63636363636368
+        572.2727272727273,
+        89.63636363636368
       ],
       "size": [
         270,
@@ -2612,8 +2629,8 @@
       "id": 364,
       "type": "SaveOBJ",
       "pos": [
-        1132.4281002184382,
-        -15.896688488278759
+        1134.2208274911636,
+        -17.7212339428245
       ],
       "size": [
         400,
@@ -2656,7 +2673,7 @@
           }
         },
         "Node name for S&R": "SaveOBJ",
-        "Last Time Model File": "3d/ComfyUI_00003_.obj",
+        "Last Time Model File": "3d/ComfyUI_00001_.obj",
         "Last Time Model Folder": "output",
         "Camera Config": {
           "cameraType": "perspective",
@@ -2664,25 +2681,25 @@
           "hasCustomUp": false,
           "state": {
             "position": {
-              "x": 14.382754976566192,
-              "y": 28.027590729940965,
-              "z": 23.52294294651152
+              "x": 53.84624695551917,
+              "y": -181.83908766066907,
+              "z": 68.21756867050593
             },
             "target": {
-              "x": 0.4341174960136414,
-              "y": 0.4387960135936737,
-              "z": 0.4406144917011261
+              "x": 53.13848304748535,
+              "y": 53.20658850669862,
+              "z": 50
             },
             "zoom": 1,
             "cameraType": "perspective",
             "quaternion": {
-              "x": -0.3736802910228372,
-              "y": 0.24743190255146283,
-              "z": 0.1041384999054398,
-              "w": 0.887860161589817
+              "x": 0.6790874528345466,
+              "y": 0.014248930775749185,
+              "z": -0.013186511640242657,
+              "w": 0.7338005964055883
             },
             "fov": 35,
-            "aspect": 1.0795454545454546,
+            "aspect": 1.1585365853658536,
             "near": 0.01,
             "far": 10000,
             "frustum": {
@@ -2707,20 +2724,39 @@
           "backgroundColor": "#282828",
           "backgroundImage": "",
           "backgroundRenderMode": "tiled",
-          "models": []
+          "models": [
+            {
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              }
+            }
+          ]
         }
       },
       "widgets_values": [
         "3d/ComfyUI",
         true,
-        10,
+        100,
         4,
         ""
       ],
       "widgets_values_named": {
         "filename_prefix": "3d/ComfyUI",
         "stand_up": true,
-        "model_height": 10,
+        "model_height": 100,
         "color_count": 4,
         "image": ""
       }
@@ -3228,10 +3264,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.424097618372485,
+      "scale": 1,
       "offset": [
-        4403.536466620405,
-        1143.120137669524
+        808.1854994277903,
+        449.6570859164377
       ]
     },
     "frontendVersion": "1.55.17",
