@@ -8,12 +8,19 @@ from here instead of changing core.
 
 import torch
 
-from comfy_extras.mesh3d.postprocess.remesh import (
-    _build_narrow_band_voxels,
-    _dual_contour_manifold,
-    _filter_components,
-    _udf_exact,
-)
+try:
+    from comfy_extras.mesh3d.postprocess.remesh import (
+        _build_narrow_band_voxels,
+        _dual_contour_manifold,
+        _filter_components,
+        _udf_exact,
+    )
+except ImportError as e:
+    raise ImportError(
+        "ComfyUI-Pixal3DPrintExport needs a ComfyUI version that provides "
+        "mesh3d.postprocess.remesh (_build_narrow_band_voxels, _dual_contour_manifold, "
+        "_filter_components, _udf_exact). Update ComfyUI and restart."
+    ) from e
 
 _CORNER_OFFSETS = (
     (0, 0, 0), (1, 0, 0), (0, 1, 0), (1, 1, 0),

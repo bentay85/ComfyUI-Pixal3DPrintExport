@@ -2,12 +2,19 @@ import logging
 
 import torch
 
-from comfy_extras.mesh3d.postprocess.qem_decimate import (
-    clean_mesh,
-    qem_decimate_simplify,
-    _repair_nonmanifold_edges,
-)
-from comfy_extras.nodes_mesh_postprocess import fill_holes_v2_fn
+try:
+    from comfy_extras.mesh3d.postprocess.qem_decimate import (
+        clean_mesh,
+        qem_decimate_simplify,
+        _repair_nonmanifold_edges,
+    )
+    from comfy_extras.nodes_mesh_postprocess import fill_holes_v2_fn
+except ImportError as e:
+    raise ImportError(
+        "ComfyUI-Pixal3DPrintExport needs a ComfyUI version that provides "
+        "mesh3d.postprocess.qem_decimate and nodes_mesh_postprocess.fill_holes_v2_fn. "
+        "Update ComfyUI and restart."
+    ) from e
 
 from comfy_api.latest import IO, Types
 from typing_extensions import override
@@ -165,7 +172,7 @@ class PrepareSTLMesh(IO.ComfyNode):
                 IO.Int.Input(
                     "remesh_resolution",
                     default=256,
-                    min=32,
+                    min=0,
                     max=1024,
                     tooltip="Dual Contouring voxel resolution. 0 disables remeshing.",
                 ),
@@ -205,25 +212,31 @@ class PrepareSTLMesh(IO.ComfyNode):
                 continue
             device = v.device
             v, f, _, _, _ = clean_mesh(v, f)
-            if remesh_resolution > 0:
+            if remesh_resolution > 0 and f.shape[0] > 0:
                 # Manifold DC keeps the shell 2-manifold, at the cost of sub-voxel
                 # cracks where the two UDF layers pinch (closed below).
                 v, f = remesh_manifold_udf(v, f, remesh_resolution)
                 f = _drop_bad_faces(f)
+            if f.shape[0] == 0:
+                logging.warning(f"PrepareSTLMesh: no geometry left after cleaning/remeshing at batch index {i}; skipping")
+                continue
             if target_faces > 0 and f.shape[0] > target_faces:
                 v, f, _, _, _ = qem_decimate_simplify(v, f, target_faces)
-            if f.shape[0] > 0:
-                # Close the DC cracks, guarantee a 2-manifold shell, and reach the same weld
-                # fixed point SaveOBJ uses on export so the mesh is watertight all the way out.
-                v, f = _resolve_topology(v, f)
-                for _ in range(8):
-                    welded_v, welded_f = _weld(v, f)
-                    if welded_v.shape[0] == v.shape[0]:
-                        break
-                    v, f = _resolve_topology(welded_v, welded_f)
-                v, f = _compact(v, f)
-                v = v.to(device)
-                f = f.to(device)
+            # Close the DC cracks, guarantee a 2-manifold shell, and reach the same weld
+            # fixed point SaveOBJ uses on export so the mesh is watertight all the way out.
+            v, f = _resolve_topology(v, f)
+            for _ in range(8):
+                welded_v, welded_f = _weld(v, f)
+                if welded_v.shape[0] == v.shape[0]:
+                    break
+                v, f = _resolve_topology(welded_v, welded_f)
+            v, f = _compact(v, f)
+            if _has_nonmanifold_edges(f) or _has_boundary_edges(f):
+                logging.warning(
+                    f"PrepareSTLMesh: could not fully resolve topology at batch index {i}; the "
+                    "mesh may not be watertight. Try a higher remesh_resolution.")
+            v = v.to(device)
+            f = f.to(device)
             out_v.append(v)
             out_f.append(f)
             v_counts.append(v.shape[0])

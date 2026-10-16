@@ -56,7 +56,7 @@ class SaveOBJ(IO.ComfyNode):
                 ),
                 IO.Float.Input(
                     "model_height",
-                    default=0.0,
+                    default=100.0,
                     min=0.0,
                     max=10000.0,
                     tooltip="Scale the model to this height (in file units, mm for slicers). 0 keeps the original size.",

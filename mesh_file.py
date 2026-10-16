@@ -21,7 +21,7 @@ def file3d_to_tensors(mesh: Types.File3D) -> tuple[torch.Tensor, torch.Tensor]:
         all_faces = []
         for p in prims:
             all_faces.append(p["faces"] + offset)
-            offset = p["positions"].shape[0]
+            offset += p["positions"].shape[0]
         faces = np.concatenate(all_faces, axis=0)
     elif fmt == "obj":
         prim = mesh_file_read.load_obj(data)

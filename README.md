@@ -21,7 +21,7 @@ incoming vertex colors).
 | input | type | default | description |
 | --- | --- | --- | --- |
 | `mesh` | MESH / File3D (STL, GLB, GLTF, OBJ, Any) | — | Mesh or 3D file to clean up. |
-| `remesh_resolution` | INT (32–1024) | `256` | Dual Contouring voxel resolution along the longest axis. `0` disables remeshing. |
+| `remesh_resolution` | INT (0–1024) | `256` | Dual Contouring voxel resolution along the longest axis. `0` disables remeshing. |
 | `target_faces` | INT (0–10,000,000) | `100000` | Decimate to this face count. `0` disables decimation. |
 
 **Output:** `mesh` — cleaned, watertight mesh ready for texturing or printing.
@@ -36,7 +36,7 @@ an output node and also shows a 3D preview in the node.
 | `mesh` | MESH / File3D (STL, GLB, GLTF, OBJ, Any) | — | Mesh or 3D file to save as OBJ. |
 | `filename_prefix` | STRING | `3d/ComfyUI` | Output path prefix under `ComfyUI/output/`. |
 | `stand_up` | BOOLEAN | `true` | Rotate the model so it stands upright on the build plate. |
-| `model_height` | FLOAT (0–10000) | `0.0` | Scale the model to this height (file units, mm for slicers). `0` keeps the original size. |
+| `model_height` | FLOAT (0–10000) | `100.0` | Scale the model to this height (file units, mm for slicers). `0` keeps the original size. |
 | `color_count` | INT (0–256) | `0` | Reduce vertex colors to at most this many colors. `0` keeps every color. |
 
 **Output:** writes `output/<prefix>_<counter>_.obj` and shows it in the preview.
@@ -50,13 +50,9 @@ an output node and also shows a 3D preview in the node.
    git clone https://github.com/bentay85/ComfyUI-Pixal3DPrintExport.git
    ```
 
-2. Install dependencies (ComfyUI already provides `torch`):
+2. Restart ComfyUI. The nodes show up under **Pixal3DPrintExport**.
 
-   ```bash
-   pip install -r ComfyUI-Pixal3DPrintExport/requirements.txt
-   ```
-
-3. Restart ComfyUI. The nodes show up under **Pixal3DPrintExport**.
+There is nothing else to install: the nodes only use ComfyUI's bundled `torch`, `numpy` and `scipy`.
 
 ## Usage
 
@@ -111,10 +107,12 @@ result and iterate until the shell is clean rather than assuming the first pass 
 
 - **Prepare Mesh closes every boundary loop**, including openings that were intentional, because the
   goal is a printable watertight part. If you need to keep a model open, skip this node.
+- If a shell still cannot be made watertight or 2-manifold, the node logs a warning naming the batch
+  item instead of failing silently; raise `remesh_resolution` or clean the input and run it again.
 - Very large inputs (millions of faces) can be slow and VRAM-heavy, mostly during remeshing and QEM
   decimation.
 - `target_faces` may not be hit exactly; decimation stops when the error budget is exhausted.
-- Dependencies: `numpy`, `scipy` (plus ComfyUI's `torch`).
+- No extra dependencies: the nodes use only ComfyUI's bundled `torch`, `numpy` and `scipy`.
 
 ## Credits
 
